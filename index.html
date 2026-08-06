@@ -117,33 +117,33 @@
     width: 440px; height: 440px;
     left: -160px; top: -100px;
     background: linear-gradient(135deg, #0a84ff, #64d2ff);
-    animation: drift1 16s ease-in-out infinite alternate;
+    animation: drift1 6s ease-in-out infinite alternate;
   }
   .glow-2 {
     width: 400px; height: 400px;
     right: -140px; top: 12%;
     background: linear-gradient(135deg, #bf5af2, #ff2d55);
     opacity: .2;
-    animation: drift2 20s ease-in-out infinite alternate;
+    animation: drift2 7s ease-in-out infinite alternate;
   }
   .glow-3 {
     width: 360px; height: 360px;
     left: 30%; bottom: -200px;
     background: linear-gradient(135deg, #ff9f0a, #ff375f);
     opacity: .13;
-    animation: drift3 18s ease-in-out infinite alternate;
+    animation: drift3 5.5s ease-in-out infinite alternate;
   }
   @keyframes drift1 {
-    from { transform: translate(0, 0) scale(1); }
-    to   { transform: translate(90px, 60px) scale(1.15); }
+    from { transform: translate(0, 0) scale(1); opacity: .22; }
+    to   { transform: translate(160px, 110px) scale(1.25); opacity: .4; }
   }
   @keyframes drift2 {
-    from { transform: translate(0, 0) scale(1); }
-    to   { transform: translate(-80px, 90px) scale(1.1); }
+    from { transform: translate(0, 0) scale(1); opacity: .16; }
+    to   { transform: translate(-150px, 140px) scale(1.2); opacity: .32; }
   }
   @keyframes drift3 {
-    from { transform: translate(0, 0) scale(1); }
-    to   { transform: translate(70px, -50px) scale(1.12); }
+    from { transform: translate(0, 0) scale(1); opacity: .1; }
+    to   { transform: translate(130px, -100px) scale(1.22); opacity: .22; }
   }
 
   .hero-avatar {
