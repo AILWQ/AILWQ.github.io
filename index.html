@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wenqiang Li — 算法工程师 · NLP / LLM / 符号回归</title>
-<meta name="description" content="Wenqiang Li（李文强），阿里巴巴淘天集团算法工程师，硕士毕业于中国科学院大学。研究方向：自然语言处理、垂域大模型训练、符号回归、智能客服 Agent。">
+<title>Wenqiang Li — Algorithm Engineer · NLP / LLM / Symbolic Regression</title>
+<meta name="description" content="Wenqiang Li, Algorithm Engineer at Alibaba Taotian Group. M.S. from the University of Chinese Academy of Sciences. Research: NLP, domain-specific LLM training, symbolic regression, intelligent customer-service agents.">
 <link rel="icon" href="https://avatars.githubusercontent.com/u/74396309?v=4">
 <meta property="og:title" content="Wenqiang Li — Personal Homepage">
 <meta property="og:description" content="Algorithm Engineer @ Alibaba · NLP · LLM · Symbolic Regression">
@@ -64,14 +64,14 @@
     font-weight: 600;
     letter-spacing: -0.02em;
   }
-  .nav-links { display: flex; gap: 34px; }
+  .nav-links { display: flex; gap: 30px; }
   .nav-links a {
     font-size: 13px;
     color: var(--text-secondary);
     transition: color .25s ease;
   }
   .nav-links a:hover { color: var(--text); }
-  @media (max-width: 640px) { .nav-links { display: none; } }
+  @media (max-width: 720px) { .nav-links { display: none; } }
 
   /* ---------- Hero ---------- */
   .hero {
@@ -83,23 +83,78 @@
     text-align: center;
     padding: 120px 24px 80px;
     position: relative;
+    overflow: hidden;
   }
   .hero::before {
     content: "";
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 60% 45% at 50% 0%, rgba(0, 113, 227, 0.07), transparent 70%),
-      radial-gradient(ellipse 45% 35% at 80% 90%, rgba(175, 82, 222, 0.05), transparent 70%);
+      radial-gradient(ellipse 55% 42% at 22% 10%, rgba(0, 113, 227, 0.10), transparent 65%),
+      radial-gradient(ellipse 50% 40% at 82% 18%, rgba(175, 82, 222, 0.08), transparent 65%),
+      radial-gradient(ellipse 55% 38% at 50% 100%, rgba(255, 45, 85, 0.05), transparent 70%),
+      radial-gradient(ellipse 40% 30% at 8% 85%, rgba(90, 200, 250, 0.08), transparent 70%);
     pointer-events: none;
   }
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 62% 55% at 50% 52%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.55) 55%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero > * { z-index: 2; }
+  .glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: .28;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .glow-1 {
+    width: 440px; height: 440px;
+    left: -160px; top: -100px;
+    background: linear-gradient(135deg, #0a84ff, #64d2ff);
+    animation: drift1 16s ease-in-out infinite alternate;
+  }
+  .glow-2 {
+    width: 400px; height: 400px;
+    right: -140px; top: 12%;
+    background: linear-gradient(135deg, #bf5af2, #ff2d55);
+    opacity: .2;
+    animation: drift2 20s ease-in-out infinite alternate;
+  }
+  .glow-3 {
+    width: 360px; height: 360px;
+    left: 30%; bottom: -200px;
+    background: linear-gradient(135deg, #ff9f0a, #ff375f);
+    opacity: .13;
+    animation: drift3 18s ease-in-out infinite alternate;
+  }
+  @keyframes drift1 {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(90px, 60px) scale(1.15); }
+  }
+  @keyframes drift2 {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(-80px, 90px) scale(1.1); }
+  }
+  @keyframes drift3 {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(70px, -50px) scale(1.12); }
+  }
+
   .hero-avatar {
     width: 128px;
     height: 128px;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.14);
+    border: 4px solid rgba(255, 255, 255, 0.9);
     margin-bottom: 36px;
+    position: relative;
     animation: fadeUp 1s .1s cubic-bezier(0.25, 0.1, 0.25, 1) both;
   }
   .hero-avatar-fallback {
@@ -117,6 +172,7 @@
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.05;
+    position: relative;
     animation: fadeUp 1s .25s cubic-bezier(0.25, 0.1, 0.25, 1) both;
   }
   .hero .subtitle {
@@ -125,6 +181,7 @@
     font-weight: 500;
     letter-spacing: -0.01em;
     color: var(--text-secondary);
+    position: relative;
     animation: fadeUp 1s .4s cubic-bezier(0.25, 0.1, 0.25, 1) both;
   }
   .hero .subtitle .accent {
@@ -137,8 +194,9 @@
     margin-top: 16px;
     font-size: 17px;
     color: var(--text-secondary);
-    max-width: 560px;
+    max-width: 600px;
     line-height: 1.6;
+    position: relative;
     animation: fadeUp 1s .55s cubic-bezier(0.25, 0.1, 0.25, 1) both;
   }
   .hero-cta {
@@ -147,6 +205,7 @@
     gap: 16px;
     flex-wrap: wrap;
     justify-content: center;
+    position: relative;
     animation: fadeUp 1s .7s cubic-bezier(0.25, 0.1, 0.25, 1) both;
   }
   .btn {
@@ -167,6 +226,7 @@
   .btn-ghost {
     color: var(--accent);
     border: 1px solid rgba(0, 113, 227, 0.5);
+    background: rgba(255, 255, 255, 0.5);
   }
   .btn-ghost:hover { background: rgba(0, 113, 227, 0.06); transform: scale(1.03); }
 
@@ -189,8 +249,8 @@
   }
 
   /* ---------- Sections ---------- */
-  section { padding: 110px 24px; }
-  .container { max-width: 980px; margin: 0 auto; }
+  section { padding: 110px 24px; position: relative; }
+  .container { max-width: 980px; margin: 0 auto; position: relative; }
 
   .section-label {
     font-size: 14px;
@@ -224,7 +284,12 @@
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
   /* ---------- About ---------- */
-  #about { background: var(--bg-soft); }
+  #about {
+    background:
+      radial-gradient(ellipse 50% 60% at 90% 10%, rgba(0, 113, 227, 0.05), transparent 70%),
+      radial-gradient(ellipse 40% 50% at 5% 90%, rgba(175, 82, 222, 0.05), transparent 70%),
+      var(--bg-soft);
+  }
   .about-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -255,7 +320,84 @@
     color: var(--text-secondary);
   }
 
+  /* ---------- Experience (timeline) ---------- */
+  #experience::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 45% 50% at 100% 50%, rgba(90, 200, 250, 0.06), transparent 70%),
+      radial-gradient(ellipse 40% 45% at 0% 20%, rgba(255, 45, 85, 0.04), transparent 70%);
+    pointer-events: none;
+  }
+  .timeline {
+    margin-top: 64px;
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(180deg, #0071e3, #af52de, rgba(175, 82, 222, 0.1));
+    border-radius: 2px;
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 56px;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -37px;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0071e3, #af52de);
+    box-shadow: 0 0 0 5px rgba(0, 113, 227, 0.12);
+  }
+  .timeline-date {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    background: rgba(0, 113, 227, 0.08);
+    padding: 5px 14px;
+    border-radius: 980px;
+    margin-bottom: 14px;
+  }
+  .timeline-item h3 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin-bottom: 6px;
+  }
+  .timeline-item .org {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .timeline-item p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    max-width: 640px;
+  }
+
   /* ---------- Research ---------- */
+  #research {
+    background:
+      radial-gradient(ellipse 50% 55% at 10% 15%, rgba(0, 113, 227, 0.05), transparent 70%),
+      radial-gradient(ellipse 45% 50% at 95% 85%, rgba(175, 82, 222, 0.05), transparent 70%),
+      var(--bg-soft);
+  }
   .research-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -264,6 +406,7 @@
   }
   @media (max-width: 780px) { .research-grid { grid-template-columns: 1fr; } }
   .research-card {
+    background: var(--bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 40px 36px;
@@ -311,7 +454,10 @@
 
   /* ---------- Stats (dark) ---------- */
   #stats {
-    background: #000;
+    background:
+      radial-gradient(ellipse 60% 70% at 50% 0%, rgba(0, 113, 227, 0.22), transparent 65%),
+      radial-gradient(ellipse 45% 55% at 85% 100%, rgba(175, 82, 222, 0.16), transparent 65%),
+      #000;
     color: #f5f5f7;
   }
   #stats .section-title { color: #f5f5f7; }
@@ -339,6 +485,15 @@
   }
 
   /* ---------- Publications ---------- */
+  #publications::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 40% 45% at 95% 15%, rgba(90, 200, 250, 0.06), transparent 70%),
+      radial-gradient(ellipse 40% 45% at 5% 80%, rgba(175, 82, 222, 0.05), transparent 70%);
+    pointer-events: none;
+  }
   .pub-list { margin-top: 56px; display: flex; flex-direction: column; gap: 14px; }
   .pub-item {
     display: flex;
@@ -394,7 +549,12 @@
   .link-arrow:hover { gap: 11px; }
 
   /* ---------- Projects ---------- */
-  #projects { background: var(--bg-soft); }
+  #projects {
+    background:
+      radial-gradient(ellipse 50% 55% at 85% 10%, rgba(0, 113, 227, 0.05), transparent 70%),
+      radial-gradient(ellipse 45% 50% at 10% 90%, rgba(255, 45, 85, 0.04), transparent 70%),
+      var(--bg-soft);
+  }
   .project-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -424,6 +584,7 @@
     font-size: 21px;
     font-weight: 600;
     letter-spacing: -0.015em;
+    word-break: break-word;
   }
   .project-star {
     font-size: 13px;
@@ -459,21 +620,36 @@
   }
 
   /* ---------- Contact ---------- */
-  #contact { text-align: center; padding-bottom: 130px; }
+  #contact {
+    text-align: center;
+    padding-bottom: 130px;
+    overflow: hidden;
+  }
+  #contact::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 55% 50% at 50% 110%, rgba(0, 113, 227, 0.1), transparent 70%),
+      radial-gradient(ellipse 40% 40% at 15% 20%, rgba(175, 82, 222, 0.06), transparent 70%),
+      radial-gradient(ellipse 40% 40% at 88% 30%, rgba(90, 200, 250, 0.07), transparent 70%);
+    pointer-events: none;
+  }
   .contact-links {
     margin-top: 44px;
     display: flex;
     justify-content: center;
-    gap: 18px;
+    gap: 16px;
     flex-wrap: wrap;
   }
   .contact-pill {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 14px 30px;
+    padding: 14px 28px;
     border-radius: 980px;
     border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.7);
     font-size: 16px;
     font-weight: 500;
     transition: all .3s ease;
@@ -484,7 +660,7 @@
     transform: translateY(-3px);
     box-shadow: 0 12px 28px rgba(0, 113, 227, 0.12);
   }
-  .contact-pill svg { width: 20px; height: 20px; }
+  .contact-pill svg { width: 20px; height: 20px; flex-shrink: 0; }
 
   /* ---------- Footer ---------- */
   footer {
@@ -502,27 +678,31 @@
   <div class="nav-inner">
     <a class="nav-logo" href="#top">Wenqiang Li</a>
     <div class="nav-links">
-      <a href="#about">关于</a>
-      <a href="#research">研究方向</a>
-      <a href="#publications">论文</a>
-      <a href="#projects">开源项目</a>
-      <a href="#contact">联系</a>
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
     </div>
   </div>
 </nav>
 
 <!-- Hero -->
 <header class="hero" id="top">
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <div class="glow glow-3"></div>
   <img class="hero-avatar" src="https://avatars.githubusercontent.com/u/74396309?v=4" alt="Wenqiang Li"
        onerror="this.outerHTML='<div class=&quot;hero-avatar hero-avatar-fallback&quot;>WL</div>'">
   <h1>Wenqiang Li</h1>
-  <p class="subtitle">算法工程师 · <span class="accent">NLP / LLM / Symbolic Regression</span></p>
-  <p class="tagline">阿里巴巴淘天集团 淘小蜜算法团队，聚焦智能客服 Agent 应用与领域大模型训练。硕士毕业于中国科学院大学。</p>
+  <p class="subtitle">Algorithm Engineer · <span class="accent">NLP / LLM / Symbolic Regression</span></p>
+  <p class="tagline">Building intelligent customer-service agents and training domain-specific LLMs at Alibaba Taotian Group. M.S. from the University of Chinese Academy of Sciences.</p>
   <div class="hero-cta">
     <a class="btn btn-primary" href="https://github.com/AILWQ" target="_blank" rel="noopener">GitHub</a>
     <a class="btn btn-ghost" href="https://scholar.google.com/citations?user=b-MGt8gAAAAJ&hl=zh-CN" target="_blank" rel="noopener">Google Scholar</a>
   </div>
-  <a class="scroll-hint" href="#about" aria-label="向下滚动">
+  <a class="scroll-hint" href="#about" aria-label="Scroll down">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
   </a>
 </header>
@@ -532,24 +712,48 @@
   <div class="container">
     <div class="reveal">
       <div class="section-label">About</div>
-      <h2 class="section-title">让机器理解语言，<br>也理解世界的规律。</h2>
-      <p class="section-desc">我硕士毕业于中国科学院大学，研究方向为自然语言处理、垂域大模型训练与符号回归。目前就职于阿里巴巴淘天集团，在淘小蜜算法团队担任算法工程师，聚焦于智能客服 Agent 应用与领域大模型训练等工作。</p>
+      <h2 class="section-title">Teaching machines to understand language —<br>and the laws of the world.</h2>
+      <p class="section-desc">I received my master's degree from the University of Chinese Academy of Sciences, where my research focused on natural language processing, domain-specific LLM training, and symbolic regression. I am currently an Algorithm Engineer at Alibaba Taotian Group, working on intelligent customer-service agent applications and domain LLM training within the TaoXiaoMi algorithm team.</p>
     </div>
     <div class="about-grid">
       <div class="info-card reveal">
         <div class="icon">🎓</div>
-        <h3>教育背景</h3>
-        <p>中国科学院大学 硕士<br>University of Chinese Academy of Sciences</p>
+        <h3>Education</h3>
+        <p>M.S., University of Chinese<br>Academy of Sciences</p>
       </div>
       <div class="info-card reveal">
         <div class="icon">💼</div>
-        <h3>当前职位</h3>
-        <p>阿里巴巴 · 淘天集团<br>淘小蜜算法团队 · 算法工程师</p>
+        <h3>Current Role</h3>
+        <p>Algorithm Engineer<br>Alibaba · Taotian Group</p>
       </div>
       <div class="info-card reveal">
         <div class="icon">📍</div>
-        <h3>所在城市</h3>
-        <p>中国 · 杭州<br>Hangzhou, China</p>
+        <h3>Location</h3>
+        <p>Hangzhou, China</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Experience</div>
+      <h2 class="section-title">Career Timeline</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <span class="timeline-date">Jul 2024 — Present</span>
+        <h3>Algorithm Engineer</h3>
+        <div class="org">Alibaba Taotian Group · TaoXiaoMi Algorithm Team</div>
+        <p>Working on intelligent customer-service agent applications and domain-specific large language model training, powering conversational AI experiences for hundreds of millions of e-commerce users.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <span class="timeline-date">— Jun 2024</span>
+        <h3>M.S. Student</h3>
+        <div class="org">University of Chinese Academy of Sciences</div>
+        <p>Researched natural language processing, domain-specific LLM training, and symbolic regression. Published first-author papers at ICLR 2023 and ICML 2024, and built DoctorGPT, a Chinese medical question-answering LLM.</p>
       </div>
     </div>
   </div>
@@ -560,29 +764,29 @@
   <div class="container">
     <div class="reveal">
       <div class="section-label">Research</div>
-      <h2 class="section-title">研究方向</h2>
-      <p class="section-desc">在学术与工业界的交汇处，探索大模型与符号智能的边界。</p>
+      <h2 class="section-title">Research Interests</h2>
+      <p class="section-desc">Exploring the frontier of large language models and symbolic intelligence, at the intersection of academia and industry.</p>
     </div>
     <div class="research-grid">
       <div class="research-card reveal">
         <span class="tag">AGENT</span>
-        <h3>智能客服 Agent</h3>
-        <p>面向电商场景的智能客服 Agent 应用，构建可规划、可反思、可执行的对话式智能体，服务亿级用户咨询。</p>
+        <h3>Intelligent Customer-Service Agents</h3>
+        <p>Building conversational agents for e-commerce that can plan, reflect, and act — serving customer inquiries at the scale of hundreds of millions of users.</p>
       </div>
       <div class="research-card reveal">
         <span class="tag">LLM</span>
-        <h3>垂域大模型训练</h3>
-        <p>领域大模型的继续预训练、指令微调与对齐，曾构建中文医疗问答大模型 DoctorGPT，深耕垂直领域知识注入。</p>
+        <h3>Domain-Specific LLM Training</h3>
+        <p>Continual pre-training, instruction tuning, and alignment of domain LLMs. Creator of DoctorGPT, a large language model for Chinese medical question answering.</p>
       </div>
       <div class="research-card reveal">
         <span class="tag">SYMBOLIC REGRESSION</span>
-        <h3>符号回归</h3>
-        <p>从数据中自动发现数学表达式，提出基于 Transformer 联合监督学习与神经引导动态符号网络等方法，成果发表于 ICLR、ICML。</p>
+        <h3>Symbolic Regression</h3>
+        <p>Automatically discovering mathematical expressions from data — proposed Transformer-based joint supervised learning and neural-guided dynamic symbolic networks, published at ICLR and ICML.</p>
       </div>
       <div class="research-card reveal">
         <span class="tag">NLP</span>
-        <h3>自然语言处理</h3>
-        <p>自然语言理解与生成、反思学习框架等方向的研究与落地，相关成果发表于 ACL 等自然语言处理顶级会议。</p>
+        <h3>Natural Language Processing</h3>
+        <p>Research and real-world applications in natural language understanding, generation, and reflection learning frameworks, with work published at ACL and other top NLP venues.</p>
       </div>
     </div>
   </div>
@@ -593,16 +797,16 @@
   <div class="container">
     <div class="reveal" style="text-align:center;">
       <div class="section-label">Impact</div>
-      <h2 class="section-title">学术影响力</h2>
+      <h2 class="section-title">Academic Impact</h2>
     </div>
     <div class="stats-grid">
       <div class="reveal">
         <div class="stat-num" data-count="20">0</div>
-        <div class="stat-label">发表论文</div>
+        <div class="stat-label">Publications</div>
       </div>
       <div class="reveal">
         <div class="stat-num" data-count="230">0</div>
-        <div class="stat-label">总引用数</div>
+        <div class="stat-label">Citations</div>
       </div>
       <div class="reveal">
         <div class="stat-num" data-count="8">0</div>
@@ -621,7 +825,7 @@
   <div class="container">
     <div class="reveal">
       <div class="section-label">Publications</div>
-      <h2 class="section-title">代表性论文</h2>
+      <h2 class="section-title">Selected Publications</h2>
     </div>
     <div class="pub-list">
       <a class="pub-item reveal" href="https://openreview.net/forum?id=ULzyv9M1j5" target="_blank" rel="noopener">
@@ -668,7 +872,7 @@
       </a>
     </div>
     <div class="pub-more reveal">
-      <a class="link-arrow" href="https://scholar.google.com/citations?user=b-MGt8gAAAAJ&hl=zh-CN" target="_blank" rel="noopener">在 Google Scholar 查看全部论文 <span>→</span></a>
+      <a class="link-arrow" href="https://scholar.google.com/citations?user=b-MGt8gAAAAJ&hl=zh-CN" target="_blank" rel="noopener">View all publications on Google Scholar <span>→</span></a>
     </div>
   </div>
 </section>
@@ -678,14 +882,14 @@
   <div class="container">
     <div class="reveal">
       <div class="section-label">Open Source</div>
-      <h2 class="section-title">开源项目</h2>
+      <h2 class="section-title">Open Source Projects</h2>
     </div>
     <div class="project-grid">
       <a class="project-card reveal" href="https://github.com/AILWQ/Joint_Supervised_Learning_for_SR" target="_blank" rel="noopener">
         <div class="project-head">
           <h3>Joint_Supervised_Learning_for_SR</h3>
         </div>
-        <p>ICLR 2023 论文官方 PyTorch 实现：基于 Transformer 联合监督学习的符号回归模型。</p>
+        <p>Official PyTorch implementation of the ICLR 2023 paper "Transformer-based model for symbolic regression via joint supervised learning".</p>
         <div class="project-foot">
           <span class="lang-dot">Python</span>
           <span class="project-star">⭐ 29</span>
@@ -695,7 +899,7 @@
         <div class="project-head">
           <h3>DySymNet</h3>
         </div>
-        <p>ICML 2024 论文官方 PyTorch 实现：神经引导的动态符号网络，从数据中探索数学表达式。</p>
+        <p>Official PyTorch implementation of the ICML 2024 paper "A Neural-Guided Dynamic Symbolic Network for Exploring Mathematical Expressions from Data".</p>
         <div class="project-foot">
           <span class="lang-dot">Python</span>
           <span class="project-star">⭐ 22</span>
@@ -703,7 +907,7 @@
       </a>
     </div>
     <div class="pub-more reveal">
-      <a class="link-arrow" href="https://github.com/AILWQ?tab=repositories" target="_blank" rel="noopener">在 GitHub 查看全部项目 <span>→</span></a>
+      <a class="link-arrow" href="https://github.com/AILWQ?tab=repositories" target="_blank" rel="noopener">View all projects on GitHub <span>→</span></a>
     </div>
   </div>
 </section>
@@ -713,10 +917,18 @@
   <div class="container">
     <div class="reveal">
       <div class="section-label">Contact</div>
-      <h2 class="section-title">保持联系</h2>
-      <p class="section-desc" style="margin:0 auto;">欢迎交流 LLM、Agent 与符号回归相关的研究与应用。</p>
+      <h2 class="section-title">Get in Touch</h2>
+      <p class="section-desc" style="margin:0 auto;">Feel free to reach out to discuss LLMs, agents, and symbolic regression — research or applications.</p>
     </div>
     <div class="contact-links reveal">
+      <a class="contact-pill" href="mailto:liwenqiang2021@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"></rect><polyline points="3 6 12 13 21 6"></polyline></svg>
+        liwenqiang2021@gmail.com
+      </a>
+      <a class="contact-pill" href="mailto:lwq2021@163.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"></rect><polyline points="3 6 12 13 21 6"></polyline></svg>
+        lwq2021@163.com
+      </a>
       <a class="contact-pill" href="https://github.com/AILWQ" target="_blank" rel="noopener">
         <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
