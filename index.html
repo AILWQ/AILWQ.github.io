@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wenqiang Li — 算法工程师 · NLP / LLM / 符号回归</title>
+<meta name="description" content="Wenqiang Li（李文强），阿里巴巴淘天集团算法工程师，硕士毕业于中国科学院大学。研究方向：自然语言处理、垂域大模型训练、符号回归、智能客服 Agent。">
+<link rel="icon" href="https://avatars.githubusercontent.com/u/74396309?v=4">
+<meta property="og:title" content="Wenqiang Li — Personal Homepage">
+<meta property="og:description" content="Algorithm Engineer @ Alibaba · NLP · LLM · Symbolic Regression">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/74396309?v=4">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f5f5f7;
+    --text: #1d1d1f;
+    --text-secondary: #6e6e73;
+    --accent: #0071e3;
+    --border: rgba(0, 0, 0, 0.08);
+    --radius: 24px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+                 "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  ::selection { background: rgba(0, 113, 227, 0.2); }
+
+  /* ---------- Nav ---------- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    background: rgba(255, 255, 255, 0.72);
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s ease;
+  }
+  nav.scrolled { border-bottom-color: var(--border); }
+  .nav-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 22px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .nav-links { display: flex; gap: 34px; }
+  .nav-links a {
+    font-size: 13px;
+    color: var(--text-secondary);
+    transition: color .25s ease;
+  }
+  .nav-links a:hover { color: var(--text); }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    position: relative;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 45% at 50% 0%, rgba(0, 113, 227, 0.07), transparent 70%),
+      radial-gradient(ellipse 45% 35% at 80% 90%, rgba(175, 82, 222, 0.05), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-avatar {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
+    margin-bottom: 36px;
+    animation: fadeUp 1s .1s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+  }
+  .hero-avatar-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0071e3, #af52de);
+    color: #fff;
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .hero h1 {
+    font-size: clamp(48px, 8vw, 80px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    animation: fadeUp 1s .25s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+  }
+  .hero .subtitle {
+    margin-top: 20px;
+    font-size: clamp(21px, 3vw, 28px);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--text-secondary);
+    animation: fadeUp 1s .4s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+  }
+  .hero .subtitle .accent {
+    background: linear-gradient(90deg, #0071e3, #af52de);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero .tagline {
+    margin-top: 16px;
+    font-size: 17px;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.6;
+    animation: fadeUp 1s .55s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+  }
+  .hero-cta {
+    margin-top: 40px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 1s .7s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 26px;
+    border-radius: 980px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all .3s ease;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #0077ed; transform: scale(1.03); }
+  .btn-ghost {
+    color: var(--accent);
+    border: 1px solid rgba(0, 113, 227, 0.5);
+  }
+  .btn-ghost:hover { background: rgba(0, 113, 227, 0.06); transform: scale(1.03); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-secondary);
+    animation: bob 2.2s ease-in-out infinite;
+    opacity: .55;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 8px); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---------- Sections ---------- */
+  section { padding: 110px 24px; }
+  .container { max-width: 980px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-size: clamp(34px, 5vw, 52px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin-bottom: 22px;
+  }
+  .section-desc {
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    max-width: 680px;
+  }
+
+  /* reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity .9s cubic-bezier(0.25, 0.1, 0.25, 1),
+                transform .9s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ---------- About ---------- */
+  #about { background: var(--bg-soft); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 56px;
+  }
+  @media (max-width: 780px) { .about-grid { grid-template-columns: 1fr; } }
+  .info-card {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 34px 30px;
+    transition: transform .4s ease, box-shadow .4s ease;
+  }
+  .info-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 44px rgba(0, 0, 0, 0.08);
+  }
+  .info-card .icon { font-size: 30px; margin-bottom: 18px; }
+  .info-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+  .info-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  /* ---------- Research ---------- */
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 56px;
+  }
+  @media (max-width: 780px) { .research-grid { grid-template-columns: 1fr; } }
+  .research-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px 36px;
+    transition: transform .4s ease, box-shadow .4s ease, border-color .4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .research-card::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #0071e3, #af52de);
+    opacity: 0;
+    transition: opacity .4s ease;
+  }
+  .research-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.07);
+    border-color: transparent;
+  }
+  .research-card:hover::after { opacity: 1; }
+  .research-card .tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    background: rgba(0, 113, 227, 0.08);
+    padding: 5px 12px;
+    border-radius: 980px;
+    margin-bottom: 18px;
+  }
+  .research-card h3 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin-bottom: 12px;
+  }
+  .research-card p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
+  /* ---------- Stats (dark) ---------- */
+  #stats {
+    background: #000;
+    color: #f5f5f7;
+  }
+  #stats .section-title { color: #f5f5f7; }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: 64px;
+    text-align: center;
+  }
+  @media (max-width: 780px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+  .stat-num {
+    font-size: clamp(44px, 6vw, 64px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    background: linear-gradient(180deg, #ffffff, #86868b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stat-label {
+    margin-top: 10px;
+    font-size: 15px;
+    color: #86868b;
+  }
+
+  /* ---------- Publications ---------- */
+  .pub-list { margin-top: 56px; display: flex; flex-direction: column; gap: 14px; }
+  .pub-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 30px 32px;
+    border-radius: 20px;
+    background: var(--bg-soft);
+    transition: transform .35s ease, box-shadow .35s ease;
+  }
+  .pub-item:hover {
+    transform: translateX(6px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+  }
+  .pub-venue {
+    flex-shrink: 0;
+    width: 130px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    padding-top: 3px;
+  }
+  .pub-item h3 {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.45;
+  }
+  .pub-item .meta {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  @media (max-width: 640px) {
+    .pub-item { flex-direction: column; gap: 10px; }
+    .pub-venue { width: auto; }
+  }
+  .pub-more {
+    margin-top: 36px;
+    text-align: center;
+  }
+  .link-arrow {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap .3s ease;
+  }
+  .link-arrow:hover { gap: 11px; }
+
+  /* ---------- Projects ---------- */
+  #projects { background: var(--bg-soft); }
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 56px;
+  }
+  @media (max-width: 780px) { .project-grid { grid-template-columns: 1fr; } }
+  .project-card {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 38px 34px;
+    display: flex;
+    flex-direction: column;
+    transition: transform .4s ease, box-shadow .4s ease;
+  }
+  .project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.08);
+  }
+  .project-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .project-card h3 {
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  .project-star {
+    font-size: 13px;
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .project-card p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    flex: 1;
+  }
+  .project-foot {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .lang-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .lang-dot::before {
+    content: "";
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #3572A5; /* Python */
+  }
+
+  /* ---------- Contact ---------- */
+  #contact { text-align: center; padding-bottom: 130px; }
+  .contact-links {
+    margin-top: 44px;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .contact-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 30px;
+    border-radius: 980px;
+    border: 1px solid var(--border);
+    font-size: 16px;
+    font-weight: 500;
+    transition: all .3s ease;
+  }
+  .contact-pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0, 113, 227, 0.12);
+  }
+  .contact-pill svg { width: 20px; height: 20px; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 34px 24px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top">Wenqiang Li</a>
+    <div class="nav-links">
+      <a href="#about">关于</a>
+      <a href="#research">研究方向</a>
+      <a href="#publications">论文</a>
+      <a href="#projects">开源项目</a>
+      <a href="#contact">联系</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="top">
+  <img class="hero-avatar" src="https://avatars.githubusercontent.com/u/74396309?v=4" alt="Wenqiang Li"
+       onerror="this.outerHTML='<div class=&quot;hero-avatar hero-avatar-fallback&quot;>WL</div>'">
+  <h1>Wenqiang Li</h1>
+  <p class="subtitle">算法工程师 · <span class="accent">NLP / LLM / Symbolic Regression</span></p>
+  <p class="tagline">阿里巴巴淘天集团 淘小蜜算法团队，聚焦智能客服 Agent 应用与领域大模型训练。硕士毕业于中国科学院大学。</p>
+  <div class="hero-cta">
+    <a class="btn btn-primary" href="https://github.com/AILWQ" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn btn-ghost" href="https://scholar.google.com/citations?user=b-MGt8gAAAAJ&hl=zh-CN" target="_blank" rel="noopener">Google Scholar</a>
+  </div>
+  <a class="scroll-hint" href="#about" aria-label="向下滚动">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  </a>
+</header>
+
+<!-- About -->
+<section id="about">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">About</div>
+      <h2 class="section-title">让机器理解语言，<br>也理解世界的规律。</h2>
+      <p class="section-desc">我硕士毕业于中国科学院大学，研究方向为自然语言处理、垂域大模型训练与符号回归。目前就职于阿里巴巴淘天集团，在淘小蜜算法团队担任算法工程师，聚焦于智能客服 Agent 应用与领域大模型训练等工作。</p>
+    </div>
+    <div class="about-grid">
+      <div class="info-card reveal">
+        <div class="icon">🎓</div>
+        <h3>教育背景</h3>
+        <p>中国科学院大学 硕士<br>University of Chinese Academy of Sciences</p>
+      </div>
+      <div class="info-card reveal">
+        <div class="icon">💼</div>
+        <h3>当前职位</h3>
+        <p>阿里巴巴 · 淘天集团<br>淘小蜜算法团队 · 算法工程师</p>
+      </div>
+      <div class="info-card reveal">
+        <div class="icon">📍</div>
+        <h3>所在城市</h3>
+        <p>中国 · 杭州<br>Hangzhou, China</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Research -->
+<section id="research">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Research</div>
+      <h2 class="section-title">研究方向</h2>
+      <p class="section-desc">在学术与工业界的交汇处，探索大模型与符号智能的边界。</p>
+    </div>
+    <div class="research-grid">
+      <div class="research-card reveal">
+        <span class="tag">AGENT</span>
+        <h3>智能客服 Agent</h3>
+        <p>面向电商场景的智能客服 Agent 应用，构建可规划、可反思、可执行的对话式智能体，服务亿级用户咨询。</p>
+      </div>
+      <div class="research-card reveal">
+        <span class="tag">LLM</span>
+        <h3>垂域大模型训练</h3>
+        <p>领域大模型的继续预训练、指令微调与对齐，曾构建中文医疗问答大模型 DoctorGPT，深耕垂直领域知识注入。</p>
+      </div>
+      <div class="research-card reveal">
+        <span class="tag">SYMBOLIC REGRESSION</span>
+        <h3>符号回归</h3>
+        <p>从数据中自动发现数学表达式，提出基于 Transformer 联合监督学习与神经引导动态符号网络等方法，成果发表于 ICLR、ICML。</p>
+      </div>
+      <div class="research-card reveal">
+        <span class="tag">NLP</span>
+        <h3>自然语言处理</h3>
+        <p>自然语言理解与生成、反思学习框架等方向的研究与落地，相关成果发表于 ACL 等自然语言处理顶级会议。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section id="stats">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label">Impact</div>
+      <h2 class="section-title">学术影响力</h2>
+    </div>
+    <div class="stats-grid">
+      <div class="reveal">
+        <div class="stat-num" data-count="20">0</div>
+        <div class="stat-label">发表论文</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-num" data-count="230">0</div>
+        <div class="stat-label">总引用数</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-num" data-count="8">0</div>
+        <div class="stat-label">h-index</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-num" data-count="8">0</div>
+        <div class="stat-label">i10-index</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Publications -->
+<section id="publications">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Publications</div>
+      <h2 class="section-title">代表性论文</h2>
+    </div>
+    <div class="pub-list">
+      <a class="pub-item reveal" href="https://openreview.net/forum?id=ULzyv9M1j5" target="_blank" rel="noopener">
+        <div class="pub-venue">ICLR 2023</div>
+        <div>
+          <h3>Transformer-based Model for Symbolic Regression via Joint Supervised Learning</h3>
+          <div class="meta"><b>Wenqiang Li</b>, Weijun Li, Linjun Sun, Min Wu, Lina Yu, Jingyi Liu, Yanjie Li, Songsong Tian</div>
+        </div>
+      </a>
+      <a class="pub-item reveal" href="https://github.com/AILWQ/DySymNet" target="_blank" rel="noopener">
+        <div class="pub-venue">ICML 2024</div>
+        <div>
+          <h3>A Neural-Guided Dynamic Symbolic Network for Exploring Mathematical Expressions from Data</h3>
+          <div class="meta"><b>Wenqiang Li</b>, Weijun Li, Lina Yu, Min Wu, Jingyi Liu, Yanjie Li</div>
+        </div>
+      </a>
+      <a class="pub-item reveal" href="https://scholar.google.com/citations?user=b-MGt8gAAAAJ&hl=zh-CN" target="_blank" rel="noopener">
+        <div class="pub-venue">ACL 2025</div>
+        <div>
+          <h3>Meta-Reflection: A Feedback-Free Reflection Learning Framework</h3>
+          <div class="meta">Yaoke Wang, Yun Zhu, Xintong Bao, Wenqiao Zhang, et al., <b>Wenqiang Li</b>, et al.</div>
+        </div>
+      </a>
+      <a class="pub-item reveal" href="https://scholar.google.com/citations?user=b-MGt8gAAAAJ&hl=zh-CN" target="_blank" rel="noopener">
+        <div class="pub-venue">HDIS 2023</div>
+        <div>
+          <h3>DoctorGPT: A Large Language Model with Chinese Medical Question-Answering Capabilities</h3>
+          <div class="meta"><b>Wenqiang Li</b>, Lina Yu, Min Wu, Jingyi Liu, Meilan Hao, Yanjie Li</div>
+        </div>
+      </a>
+      <a class="pub-item reveal" href="https://scholar.google.com/citations?user=b-MGt8gAAAAJ&hl=zh-CN" target="_blank" rel="noopener">
+        <div class="pub-venue">Neural Networks</div>
+        <div>
+          <h3>SNR: Symbolic Network-based Rectifiable Learning Framework for Symbolic Regression</h3>
+          <div class="meta">Jingyi Liu, Weijun Li, Lina Yu, Min Wu, Linjun Sun, <b>Wenqiang Li</b>, Yanjie Li</div>
+        </div>
+      </a>
+      <a class="pub-item reveal" href="https://scholar.google.com/citations?user=b-MGt8gAAAAJ&hl=zh-CN" target="_blank" rel="noopener">
+        <div class="pub-venue">IEEE TNNLS</div>
+        <div>
+          <h3>Discovering Mathematical Expressions Through DeepSymNet: A Classification-Based Symbolic Regression Framework</h3>
+          <div class="meta">Min Wu, Weijun Li, Lina Yu, Linjun Sun, Jingyi Liu, <b>Wenqiang Li</b></div>
+        </div>
+      </a>
+    </div>
+    <div class="pub-more reveal">
+      <a class="link-arrow" href="https://scholar.google.com/citations?user=b-MGt8gAAAAJ&hl=zh-CN" target="_blank" rel="noopener">在 Google Scholar 查看全部论文 <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Open Source</div>
+      <h2 class="section-title">开源项目</h2>
+    </div>
+    <div class="project-grid">
+      <a class="project-card reveal" href="https://github.com/AILWQ/Joint_Supervised_Learning_for_SR" target="_blank" rel="noopener">
+        <div class="project-head">
+          <h3>Joint_Supervised_Learning_for_SR</h3>
+        </div>
+        <p>ICLR 2023 论文官方 PyTorch 实现：基于 Transformer 联合监督学习的符号回归模型。</p>
+        <div class="project-foot">
+          <span class="lang-dot">Python</span>
+          <span class="project-star">⭐ 29</span>
+        </div>
+      </a>
+      <a class="project-card reveal" href="https://github.com/AILWQ/DySymNet" target="_blank" rel="noopener">
+        <div class="project-head">
+          <h3>DySymNet</h3>
+        </div>
+        <p>ICML 2024 论文官方 PyTorch 实现：神经引导的动态符号网络，从数据中探索数学表达式。</p>
+        <div class="project-foot">
+          <span class="lang-dot">Python</span>
+          <span class="project-star">⭐ 22</span>
+        </div>
+      </a>
+    </div>
+    <div class="pub-more reveal">
+      <a class="link-arrow" href="https://github.com/AILWQ?tab=repositories" target="_blank" rel="noopener">在 GitHub 查看全部项目 <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">保持联系</h2>
+      <p class="section-desc" style="margin:0 auto;">欢迎交流 LLM、Agent 与符号回归相关的研究与应用。</p>
+    </div>
+    <div class="contact-links reveal">
+      <a class="contact-pill" href="https://github.com/AILWQ" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+      <a class="contact-pill" href="https://scholar.google.com/citations?user=b-MGt8gAAAAJ&hl=zh-CN" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+        Google Scholar
+      </a>
+      <a class="contact-pill" href="https://www.semanticscholar.org/author/Wenqiang-Li/2217534122" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        Semantic Scholar
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Wenqiang Li · Designed with ❤️ in Hangzhou</p>
+</footer>
+
+<script>
+  // nav border on scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+  // reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = `${(i % 4) * 0.08}s`;
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // count-up animation for stats
+  const countIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = +el.dataset.count;
+      const suffix = target >= 20 ? '+' : '';
+      const dur = 1400;
+      const t0 = performance.now();
+      const tick = (t) => {
+        const p = Math.min((t - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased) + (p === 1 ? suffix : '');
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      countIO.unobserve(el);
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.stat-num').forEach(el => countIO.observe(el));
+</script>
+
+</body>
+</html>
