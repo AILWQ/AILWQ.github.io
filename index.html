@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wenqiang Li — Agent Algorithm Engineer</title>
-<meta name="description" content="Wenqiang Li, Algorithm Engineer at Alibaba Taotian Group. M.S. from the University of Chinese Academy of Sciences. Research: NLP, domain-specific LLM training, symbolic regression, intelligent customer-service agents.">
+<meta name="description" content="Wenqiang Li, Algorithm Engineer at Taobao and Tmall Group. M.S. from the University of Chinese Academy of Sciences. Research: NLP, domain-specific LLM training, symbolic regression, intelligent customer-service agents.">
 <link rel="icon" href="https://avatars.githubusercontent.com/u/74396309?v=4">
 <meta property="og:title" content="Wenqiang Li — Personal Homepage">
 <meta property="og:description" content="Algorithm Engineer @ Alibaba · NLP · LLM · Symbolic Regression">
@@ -697,7 +697,7 @@
        onerror="this.outerHTML='<div class=&quot;hero-avatar hero-avatar-fallback&quot;>WL</div>'">
   <h1>Wenqiang Li</h1>
   <p class="subtitle"><span class="accent">Agent</span> Algorithm Engineer</p>
-  <p class="tagline">Building intelligent customer-service agents and training domain-specific LLMs at Alibaba Taotian Group. M.S. from the University of Chinese Academy of Sciences.</p>
+  <p class="tagline">Building intelligent customer-service agents and training domain-specific LLMs at Taobao and Tmall Group. M.S. from the University of Chinese Academy of Sciences.</p>
   <div class="hero-cta">
     <a class="btn btn-primary" href="https://github.com/AILWQ" target="_blank" rel="noopener">GitHub</a>
     <a class="btn btn-ghost" href="https://scholar.google.com/citations?user=b-MGt8gAAAAJ&hl=zh-CN" target="_blank" rel="noopener">Google Scholar</a>
@@ -713,7 +713,7 @@
     <div class="reveal">
       <div class="section-label">About</div>
       <h2 class="section-title">Teaching machines to understand language —<br>and the laws of the world.</h2>
-      <p class="section-desc">I received my master's degree from the University of Chinese Academy of Sciences, where my research focused on natural language processing, domain-specific LLM training, and symbolic regression. I am currently an Algorithm Engineer at Alibaba Taotian Group, working on intelligent customer-service agent applications and domain LLM training within the TaoXiaoMi algorithm team.</p>
+      <p class="section-desc">I received my master's degree from the University of Chinese Academy of Sciences, where my research focused on natural language processing, domain-specific LLM training, and symbolic regression. I am currently an Algorithm Engineer at Taobao and Tmall Group, working on intelligent customer-service agent applications and domain LLM training within the TaoXiaoMi algorithm team.</p>
     </div>
     <div class="about-grid">
       <div class="info-card reveal">
@@ -724,7 +724,7 @@
       <div class="info-card reveal">
         <div class="icon">💼</div>
         <h3>Current Role</h3>
-        <p>Algorithm Engineer<br>Alibaba · Taotian Group</p>
+        <p>Algorithm Engineer<br>Alibaba · Taobao and Tmall Group</p>
       </div>
       <div class="info-card reveal">
         <div class="icon">📍</div>
@@ -746,7 +746,7 @@
       <div class="timeline-item reveal">
         <span class="timeline-date">Jul 2024 — Present</span>
         <h3>Algorithm Engineer</h3>
-        <div class="org">Alibaba Taotian Group · TaoXiaoMi Algorithm Team</div>
+        <div class="org">Taobao and Tmall Group · TaoXiaoMi Algorithm Team</div>
         <p>Working on intelligent customer-service agent applications and domain-specific large language model training, powering conversational AI experiences for hundreds of millions of e-commerce users.</p>
       </div>
       <div class="timeline-item reveal">
@@ -968,26 +968,54 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // count-up animation for stats
-  const countIO = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
-      const target = +el.dataset.count;
-      const suffix = target >= 20 ? '+' : '';
-      const dur = 1400;
-      const t0 = performance.now();
-      const tick = (t) => {
-        const p = Math.min((t - t0) / dur, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(target * eased) + (p === 1 ? suffix : '');
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-      countIO.unobserve(el);
-    });
-  }, { threshold: 0.6 });
-  document.querySelectorAll('.stat-num').forEach(el => countIO.observe(el));
+  // count-up animation for stats (optionally overridden by live Google Scholar data)
+  function startCountUp() {
+    const countIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = +el.dataset.count;
+        const suffix = target >= 20 ? '+' : '';
+        const dur = 1400;
+        const t0 = performance.now();
+        const tick = (t) => {
+          const p = Math.min((t - t0) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased) + (p === 1 ? suffix : '');
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+        countIO.unobserve(el);
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll('.stat-num').forEach(el => countIO.observe(el));
+  }
+
+  // Load Google Scholar stats from scholar-stats.json (auto-updated by GitHub Actions).
+  // Map each stat card to a JSON field via its .stat-label text.
+  const SCHOLAR_FIELDS = { 'Citations': 'citations', 'h-index': 'hIndex', 'i10-index': 'i10Index' };
+  function statLabel(el) {
+    const lbl = el.parentElement.querySelector('.stat-label');
+    return lbl ? lbl.textContent.trim() : '';
+  }
+  const statsPromise = fetch('scholar-stats.json', { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : null)
+    .catch(() => null);
+  // Don't let a slow fetch block the animation for more than 2.5s.
+  Promise.race([
+    statsPromise,
+    new Promise(res => setTimeout(() => res(null), 2500))
+  ]).then(data => {
+    if (data && typeof data === 'object') {
+      document.querySelectorAll('.stat-num').forEach(el => {
+        const key = SCHOLAR_FIELDS[statLabel(el)];
+        if (key && typeof data[key] === 'number' && !isNaN(data[key])) {
+          el.dataset.count = data[key];
+        }
+      });
+    }
+    startCountUp();
+  });
 </script>
 
 </body>
