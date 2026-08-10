@@ -968,54 +968,26 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // count-up animation for stats (optionally overridden by live Google Scholar data)
-  function startCountUp() {
-    const countIO = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const target = +el.dataset.count;
-        const suffix = target >= 20 ? '+' : '';
-        const dur = 1400;
-        const t0 = performance.now();
-        const tick = (t) => {
-          const p = Math.min((t - t0) / dur, 1);
-          const eased = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.round(target * eased) + (p === 1 ? suffix : '');
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-        countIO.unobserve(el);
-      });
-    }, { threshold: 0.6 });
-    document.querySelectorAll('.stat-num').forEach(el => countIO.observe(el));
-  }
-
-  // Load Google Scholar stats from scholar-stats.json (auto-updated by GitHub Actions).
-  // Map each stat card to a JSON field via its .stat-label text.
-  const SCHOLAR_FIELDS = { 'Citations': 'citations', 'h-index': 'hIndex', 'i10-index': 'i10Index' };
-  function statLabel(el) {
-    const lbl = el.parentElement.querySelector('.stat-label');
-    return lbl ? lbl.textContent.trim() : '';
-  }
-  const statsPromise = fetch('scholar-stats.json', { cache: 'no-store' })
-    .then(r => r.ok ? r.json() : null)
-    .catch(() => null);
-  // Don't let a slow fetch block the animation for more than 2.5s.
-  Promise.race([
-    statsPromise,
-    new Promise(res => setTimeout(() => res(null), 2500))
-  ]).then(data => {
-    if (data && typeof data === 'object') {
-      document.querySelectorAll('.stat-num').forEach(el => {
-        const key = SCHOLAR_FIELDS[statLabel(el)];
-        if (key && typeof data[key] === 'number' && !isNaN(data[key])) {
-          el.dataset.count = data[key];
-        }
-      });
-    }
-    startCountUp();
-  });
+  // count-up animation for stats
+  const countIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = +el.dataset.count;
+      const suffix = target >= 20 ? '+' : '';
+      const dur = 1400;
+      const t0 = performance.now();
+      const tick = (t) => {
+        const p = Math.min((t - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased) + (p === 1 ? suffix : '');
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      countIO.unobserve(el);
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.stat-num').forEach(el => countIO.observe(el));
 </script>
 
 </body>
