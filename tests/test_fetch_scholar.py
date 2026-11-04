@@ -6,7 +6,14 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 from urllib.error import HTTPError
 
-from scripts.fetch_scholar import SCHOLAR_ID, collect_metrics, fetch_page, parse_page, update_snapshot
+from scripts.fetch_scholar import (
+    SCHOLAR_ID,
+    collect_metrics,
+    fetch_page,
+    fetch_page_with_retry,
+    parse_page,
+    update_snapshot,
+)
 
 
 def profile_page(ids=("paper1",), values=("273", "272", "9", "9", "9", "9"), more=False):
@@ -34,6 +41,22 @@ class ScholarTests(unittest.TestCase):
         with patch("scripts.fetch_scholar.urlopen") as open_url:
             open_url.return_value.__enter__.return_value = response
             self.assertEqual(fetch_page(0), "Scholar\u00a0profile")
+
+    def test_retries_transient_errors(self):
+        limited = HTTPError("https://scholar.google.com", 429, "Limited", {}, None)
+        with patch("scripts.fetch_scholar.fetch_page", side_effect=[limited, profile_page()]) as fetch, \
+                patch("scripts.fetch_scholar.time.sleep") as sleep:
+            self.assertEqual(fetch_page_with_retry(0), profile_page())
+        self.assertEqual(fetch.call_count, 2)
+        sleep.assert_called_once_with(5)
+
+    def test_does_not_retry_forbidden(self):
+        forbidden = HTTPError("https://scholar.google.com", 403, "Forbidden", {}, None)
+        with patch("scripts.fetch_scholar.fetch_page", side_effect=forbidden), \
+                patch("scripts.fetch_scholar.time.sleep") as sleep, \
+                self.assertRaises(HTTPError):
+            fetch_page_with_retry(0)
+        sleep.assert_not_called()
 
     def test_uses_all_time_metrics(self):
         metrics, ids, more = parse_page(profile_page())

@@ -46,9 +46,6 @@ jobs:
         continue-on-error: true
         timeout-minutes: 6
         run: python scripts/fetch_scholar.py
-      - name: Report cached data fallback
-        if: steps.scholar.outcome == 'failure'
-        run: python -c "print('::warning::Scholar refresh failed. Deploying the last saved snapshot with its original update time.')"
       - name: Cache successful Scholar snapshot
         if: steps.scholar.outcome == 'success'
         uses: actions/cache/save@v4
