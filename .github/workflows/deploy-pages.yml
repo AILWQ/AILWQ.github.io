@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '17 3 * * *'
 
 permissions:
   contents: read
@@ -23,12 +25,47 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Scholar parser
+        run: python -m pip install beautifulsoup4==4.12.3
+      - name: Test Scholar parser
+        run: python -m unittest discover -s tests -v
+      - name: Restore Scholar snapshot
+        id: scholar-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: data/scholar.json
+          key: scholar-b-MGt8gAAAAJ-${{ hashFiles('data/scholar.json') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            scholar-b-MGt8gAAAAJ-${{ hashFiles('data/scholar.json') }}-
+      - name: Refresh Scholar snapshot
+        id: scholar
+        continue-on-error: true
+        timeout-minutes: 6
+        run: python scripts/fetch_scholar.py
+      - name: Report cached data fallback
+        if: steps.scholar.outcome == 'failure'
+        run: python -c "print('::warning::Scholar refresh failed. Deploying the last saved snapshot with its original update time.')"
+      - name: Cache successful Scholar snapshot
+        if: steps.scholar.outcome == 'success'
+        uses: actions/cache/save@v4
+        with:
+          path: data/scholar.json
+          key: ${{ steps.scholar-cache.outputs.cache-primary-key }}
+      - name: Prepare site
+        run: |
+          mkdir -p _site/data
+          cp index.html .nojekyll _site/
+          cp data/scholar.json _site/data/
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '_site'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

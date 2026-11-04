@@ -483,6 +483,16 @@
     font-size: 15px;
     color: #86868b;
   }
+  .stats-source {
+    margin-top: 36px;
+    text-align: center;
+    color: #a1a1a6;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .stats-source a { color: #64d2ff; }
+  .stats-source a:hover { text-decoration: underline; }
+  .stats-status { margin-top: 6px; font-size: 13px; }
 
   /* ---------- Publications ---------- */
   #publications::before {
@@ -801,21 +811,25 @@
     </div>
     <div class="stats-grid">
       <div class="reveal">
-        <div class="stat-num" data-count="20">0</div>
+        <div class="stat-num" data-metric="publications">—</div>
         <div class="stat-label">Publications</div>
       </div>
       <div class="reveal">
-        <div class="stat-num" data-count="240">0</div>
+        <div class="stat-num" data-metric="citations">—</div>
         <div class="stat-label">Citations</div>
       </div>
       <div class="reveal">
-        <div class="stat-num" data-count="8">0</div>
+        <div class="stat-num" data-metric="h_index">—</div>
         <div class="stat-label">h-index</div>
       </div>
       <div class="reveal">
-        <div class="stat-num" data-count="8">0</div>
+        <div class="stat-num" data-metric="i10_index">—</div>
         <div class="stat-label">i10-index</div>
       </div>
+    </div>
+    <div class="stats-source">
+      <a href="https://scholar.google.com/citations?user=b-MGt8gAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener">Google Scholar</a> · All-time metrics
+      <p class="stats-status" id="scholar-status" role="status">Updates daily. View Google Scholar for the latest figures.</p>
     </div>
   </div>
 </section>
@@ -954,26 +968,66 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // count-up animation for stats
+  const numberFormat = new Intl.NumberFormat('en-US');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const countIO = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       const el = entry.target;
-      const target = +el.dataset.count;
-      const suffix = target >= 20 ? '+' : '';
-      const dur = 1400;
+      const target = Number(el.dataset.count);
       const t0 = performance.now();
       const tick = (t) => {
-        const p = Math.min((t - t0) / dur, 1);
+        const p = reduceMotion ? 1 : Math.min((t - t0) / 1400, 1);
         const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(target * eased) + (p === 1 ? suffix : '');
+        el.textContent = numberFormat.format(Math.round(target * eased));
         if (p < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
       countIO.unobserve(el);
     });
   }, { threshold: 0.6 });
-  document.querySelectorAll('.stat-num').forEach(el => countIO.observe(el));
+
+  async function loadScholarMetrics() {
+    const status = document.getElementById('scholar-status');
+    const elements = [...document.querySelectorAll('[data-metric]')];
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    status.textContent = 'Loading Google Scholar metrics…';
+    try {
+      const response = await fetch('./data/scholar.json', {
+        cache: 'no-store',
+        signal: controller.signal,
+      });
+      if (!response.ok) throw new Error('Scholar snapshot unavailable');
+      const data = await response.json();
+      if (data.scholar_id !== 'b-MGt8gAAAAJ' ||
+          typeof data.updated_at !== 'string' ||
+          !Number.isFinite(Date.parse(data.updated_at)) ||
+          !elements.every(el => Number.isSafeInteger(data.metrics?.[el.dataset.metric]) &&
+            data.metrics[el.dataset.metric] >= 0)) {
+        throw new Error('Invalid Scholar snapshot');
+      }
+      elements.forEach(el => {
+        el.dataset.count = data.metrics[el.dataset.metric];
+        countIO.observe(el);
+      });
+      const updated = new Date(data.updated_at);
+      const time = document.createElement('time');
+      time.dateTime = updated.toISOString();
+      time.textContent = new Intl.DateTimeFormat('en-US', {
+        year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC',
+      }).format(updated);
+      const stale = Date.now() - updated.getTime() > 7 * 24 * 60 * 60 * 1000;
+      status.replaceChildren('Updated ', time, stale
+        ? ' (UTC) · Update delayed; showing last saved data.'
+        : ' (UTC) · Synced daily.');
+    } catch {
+      status.textContent = 'Metrics unavailable. View Google Scholar for the latest figures.';
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+  loadScholarMetrics();
 </script>
 
 </body>
